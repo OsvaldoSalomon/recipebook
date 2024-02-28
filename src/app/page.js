@@ -3,9 +3,9 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import { signOut } from 'firebase/auth';
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function Home() {
     const [user] = useAuthState(auth);
@@ -31,16 +31,11 @@ export default function Home() {
         },
     ]
 
-    // <button onClick={() => {
-    //     signOut(auth)
-    //     sessionStorage.removeItem('user')
-    // }}>Logout</button>
-
-    // console.log({user})
-
-    if (!user && !userSession) {
-        router.push('signin');
-    }
+    useEffect(() => {
+        if (!user && !userSession) {
+            router.push('signin');
+        }
+    });
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
