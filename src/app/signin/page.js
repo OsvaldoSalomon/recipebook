@@ -13,8 +13,10 @@ const SignIn = () => {
     const handleLogin = async () => {
         try {
             const res = await loginUserWithEmailAndPassword(email, password)
-            console.log({res})
-            sessionStorage.setItem('user', true)
+            // console.log({res})
+            if (typeof window !== "undefined") {
+                sessionStorage.setItem('user', true)
+            }
             setEmail('');
             setPassword('');
             router.push('/');

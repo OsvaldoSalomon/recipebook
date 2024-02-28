@@ -10,7 +10,10 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 export default function Home() {
     const [user] = useAuthState(auth);
     const router = useRouter();
-    const userSession = sessionStorage.getItem('user');
+    let userSession = '';
+    if (typeof window !== "undefined") {
+        userSession = sessionStorage.getItem('user');
+    }
 
     const navigation = [
         {name: 'Recipes', href: '#', current: true},
@@ -20,7 +23,12 @@ export default function Home() {
     const userNavigation = [
         {name: 'Your Profile', href: '#'},
         {name: 'Settings', href: '#'},
-        {name: 'Sign out', href: '#'},
+        {
+            name: 'Sign out', href: '#', onClick: function () {
+                signOut(auth);
+                sessionStorage.removeItem('user')
+            }
+        },
     ]
 
     // <button onClick={() => {
@@ -28,7 +36,7 @@ export default function Home() {
     //     sessionStorage.removeItem('user')
     // }}>Logout</button>
 
-    console.log({user})
+    // console.log({user})
 
     if (!user && !userSession) {
         router.push('signin');
@@ -105,6 +113,7 @@ export default function Home() {
                                                                 {({active}) => (
                                                                     <a
                                                                         href={item.href}
+                                                                        onClick={item.onClick}
                                                                         className={classNames(
                                                                             active ? 'bg-gray-100' : '',
                                                                             'block px-4 py-2 text-sm text-gray-700'
@@ -162,19 +171,12 @@ export default function Home() {
                                         </div>
                                         <div className="ml-3">
                                             <div
-                                                className="text-base font-medium leading-none text-white">Osvaldo
+                                                className="text-base font-medium leading-none text-white">John Doe
                                             </div>
                                             <div
-                                                className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
+                                                className="text-sm font-medium leading-none text-gray-400">john@doe.com
+                                            </div>
                                         </div>
-                                        <button
-                                            type="button"
-                                            className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                        >
-                                            <span className="absolute -inset-1.5"/>
-                                            <span className="sr-only">View notifications</span>
-                                            <BellIcon className="h-6 w-6" aria-hidden="true"/>
-                                        </button>
                                     </div>
                                     <div className="mt-3 space-y-1 px-2">
                                         {userNavigation.map((item) => (
@@ -182,6 +184,7 @@ export default function Home() {
                                                 key={item.name}
                                                 as="a"
                                                 href={item.href}
+                                                onClick={item.onClick}
                                                 className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                                             >
                                                 {item.name}
