@@ -6,6 +6,7 @@ import { signOut } from 'firebase/auth';
 import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import RecipeList from "@/app/recipes/RecipeList";
 
 export default function Home() {
     const [user] = useAuthState(auth);
@@ -23,12 +24,12 @@ export default function Home() {
         { name: 'Add Recipe', href: '#', current: false },
     ]
     const userNavigation = [
-        { name: 'User name', href: '#' },
+        { name: user ? user.email : 'Guest', href: '#' },
         { name: 'Settings', href: '#' },
         {
             name: 'Sign out', href: '#', onClick: function () {
                 signOut(auth);
-                sessionStorage.removeItem('user')
+                sessionStorage.removeItem('user');
             }
         },
     ]
@@ -55,7 +56,7 @@ export default function Home() {
                                         <div className="flex-shrink-0">
                                             <img
                                                 className="h-8 w-8"
-                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                                                src={'/recipebook_logo.png'}
                                                 alt="Your Company"
                                             />
                                         </div>
@@ -170,9 +171,9 @@ export default function Home() {
                                             <div
                                                 className="text-base font-medium leading-none text-white">John Doe
                                             </div>
-                                            <div
-                                                className="text-sm font-medium leading-none text-gray-400">john@doe.com
-                                            </div>
+                                            {/*<div*/}
+                                            {/*    className="text-sm font-medium leading-none text-gray-400">{user ? user.email : 'Guest'}*/}
+                                            {/*</div>*/}
                                         </div>
                                     </div>
                                     <div className="mt-3 space-y-1 px-2">
@@ -199,8 +200,10 @@ export default function Home() {
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900">My Recipes</h1>
                     </div>
                 </header>
-                <main>
-                    <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{/* Your content */}</div>
+                <main className="bg-gray-200">
+                    <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                        <RecipeList />
+                    </div>
                 </main>
             </div>
         </>
