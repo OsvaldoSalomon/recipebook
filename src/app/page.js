@@ -14,15 +14,17 @@ export default function Home() {
     if (typeof window !== "undefined") {
         userSession = sessionStorage.getItem('user');
     }
+    // console.log(user)
 
     const navigation = [
-        {name: 'Recipes', href: '#', current: true},
-        {name: 'Shopping List', href: '#', current: false},
-        {name: 'Add Recipe', href: '#', current: false},
+        { name: 'Recipes', href: '#', current: true },
+        { name: 'Your weekly recipes', href: '#', current: false },
+        { name: 'Shopping List', href: '#', current: false },
+        { name: 'Add Recipe', href: '#', current: false },
     ]
     const userNavigation = [
-        {name: 'Your Profile', href: '#'},
-        {name: 'Settings', href: '#'},
+        { name: 'User name', href: '#' },
+        { name: 'Settings', href: '#' },
         {
             name: 'Sign out', href: '#', onClick: function () {
                 signOut(auth);
@@ -45,7 +47,7 @@ export default function Home() {
         <>
             <div className="min-h-full">
                 <Disclosure as="nav" className="bg-gray-800">
-                    {({open}) => (
+                    {({ open }) => (
                         <>
                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                                 <div className="flex h-16 items-center justify-between">
@@ -105,7 +107,7 @@ export default function Home() {
                                                         className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                         {userNavigation.map((item) => (
                                                             <Menu.Item key={item.name}>
-                                                                {({active}) => (
+                                                                {({ active }) => (
                                                                     <a
                                                                         href={item.href}
                                                                         onClick={item.onClick}
